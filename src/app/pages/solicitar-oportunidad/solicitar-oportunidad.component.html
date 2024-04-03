@@ -1,0 +1,36 @@
+<div class="max-w-fit mx-auto bg-white rounded-lg shadow-md p-8 my-12">
+    <div class="bg-sky-900 p-2 rounded-full w-40 h-40 flex items-center justify-center mb-4">
+        <img src="./assets/img/logo.png" alt="Logo" />
+    </div>
+    <h1 class="text-3xl font-bold mb-10 text-sky-900 self-center text-center">¿Qué necesitas?</h1>
+    @if(oportunidad){
+        <form #oporForm (submit)="enviarSolicitud()">
+            <div class="mb-4">
+                <label for="nombre" class="block text-sky-900 font-bold mb-2">Nombre del servicio:</label>
+                <select id="nombre" name="nombre" [(ngModel)]="oportunidad.nameOportunity" required
+                    (change)="checkNombreServicio()"
+                    class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Elige un servicio</option>
+                    <option value="Asesoría legal">Asesoría legal</option>
+                    <option value="Representación">Representación</option>
+                    <option value="Investigación jurídica">Investigación jurídica</option>
+                    <option value="Redacción de documentos jurídicos">Redacción de documentos jurídicos</option>
+                    <option value="Negociación">Negociación</option>
+                    <option value="Mediación">Mediación</option>
+                    <option value="Otros">Otro tipo</option>
+                </select>
+            </div>
+            <div class="mb-6 h-52">
+                <label for="descriptionOportunity" class="block text-sky-900 font-bold mb-2">Descripción:</label>
+                <textarea placeholder="Danos una corta introducción a tu necesidad..." id="descriptionOportunity" name="descriptionOportunity"
+                    [(ngModel)]="oportunidad.descriptionOportunity" required
+                    (change)="checkDescripcion()"
+                    class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-3/4"></textarea>
+            </div>
+            <button type="submit"
+                class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Enviar solicitud
+            </button>
+        </form>        
+    }
+</div>

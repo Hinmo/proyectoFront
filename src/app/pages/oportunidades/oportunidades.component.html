@@ -1,0 +1,203 @@
+<div class="grid grid-cols-1">
+    <div [class]="mostrarInteracciones ? 'col-span-1 overflow-y-auto h-3/5' : 'col-span-1 overflow-y-auto h-fit' ">
+        <section class="mx-auto table-custom-width mt-4">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="font-bold text-4xl text-center text-sky-900 flex-grow">Oportunidades</h1>
+                <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition-colors duration-300" (click)="abrirModal5()">
+                    Agregar Nueva Oportunidad
+                </button>
+            </div>
+            <app-table [headers]="headNames" [datos]="oportunidades" [columnasMapeo]="headMap" [acciones]="acciones" (accionSeleccionada)="ejecutarAccion($event)"></app-table>
+        </section> 
+    </div>
+    @if (mostrarInteracciones) {
+    <div class=" mx-auto w-1/2 col-span-1 overflow-y-auto -mt-80 mb-10">
+        <section class="table-custom-width justify-between">   
+            <h1 class="font-bold text-2xl text-center text-sky-900">Interacciones Relacionadas</h1>
+            <app-table [headers]="headNamesInt" [datos]="interacciones" [columnasMapeo]="headMapInt" [acciones]="accionesInt" (accionSeleccionada)="ejecutarAccionInt($event)"></app-table>
+            <button (click)="mostrarInteracciones=false" class="px-4 py-2 bg-sky-900 text-white hover:bg-green-500 transition-colors duration-300 my-2 rounded">Cerrar Interacciones</button>
+        </section>
+    </div>
+    }
+</div>
+
+<app-modal [isOpen]="modalAbierto === 'modal4'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+          <p>¿Está seguro de que desea eliminar esta oportunidad?</p>
+          <p class="text-lg text-orange-500">{{ oportunidad?.nameOportunity }}</p>
+        </div>
+        <div class="mt-4">
+          <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2" (click)="eliminarOportunidad(oportunidad)">Confirmar</button>
+          <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+        </div>
+    </div>    
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal3'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+            <p>Selecciona el nuevo estado para:</p>
+            <p class="text-lg text-orange-500">{{ oportunidad?.nameOportunity }}</p>
+        </div>
+        <div class="mt-4 flex flex-col items-center">
+            <select class="py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-indigo-500" [(ngModel)]="nuevoEstadoOpor">
+                <option value="Sin gestor">Sin gestor</option>
+                <option value="En proceso">En proceso</option>
+                <option value="En pausa">En pausa</option>
+                <option value="Finalizada">Finalizada</option>
+                <option value="Cancelada">Cancelada</option>
+            </select>
+            <div class="mt-4">
+                <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mr-2" (click)="cambiarEstadoOpor(oportunidad, nuevoEstadoOpor)">Confirmar</button>
+                <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>    
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal2'" (closeModalEvent)="cerrarModal()">
+    <div class="container mx-auto my-8 text-sky-900">
+        <div class="mx-auto bg-white p-6">
+            <h2 class="text-2xl font-bold mb-4">Editar oportunidad</h2>
+            @if (oportunidad) {
+            <form (submit)="guardarCambiosOpor()" #oporEdit>
+                <label for="nameOportunity">Nombre de la oportunidad:</label>
+                <select name="nameOportunity" [(ngModel)]="oportunidad.nameOportunity" required
+                class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
+                    <option value="" disabled selected>Elige un servicio</option>
+                    <option value="Asesoría legal">Asesoría legal</option>
+                    <option value="Representación">Representación</option>
+                    <option value="Investigación jurídica">Investigación jurídica</option>
+                    <option value="Redacción de documentos jurídicos">Redacción de documentos jurídicos</option>
+                    <option value="Negociación">Negociación</option>
+                    <option value="Mediación">Mediación</option>
+                    <option value="Otros">Otro tipo</option>
+                </select>
+              
+                <label for="descriptionOportunity" >Descripción:</label>
+                <textarea class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" [(ngModel)]="oportunidad.descriptionOportunity" name="descriptionOportunity" required></textarea>
+              
+                <label for="stateOportunity">Estado:</label>
+                <select id="stateOportunity" class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" [(ngModel)]="oportunidad.stateOportunity" name="stateOportunity" required>
+                    <option value="Sin gestor">Sin gestor</option>
+                    <option value="En proceso">En proceso</option>
+                    <option value="En pausa">En pausa</option>
+                    <option value="Finalizada">Finalizada</option>
+                    <option value="Cancelada">Cancelada</option>
+                </select>
+                <div class="col-span-2 mb-4">
+                    <button type="submit" class="bg-sky-900 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">Guardar Cambios</button>
+                    <button type="button" class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ml-4" (click)="onCancel()"> Cancelar </button>
+                </div>
+            </form>
+            }
+        </div>
+    </div>
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal1'" (closeModalEvent)="cerrarModal()">
+    <div class="container mx-auto my-8 text-sky-900">
+        <div class="mx-auto bg-white p-6">
+            <h2 class="text-2xl font-bold mb-4">{{editar ? 'Editar interacción' : 'Crear interacción' }}</h2>
+            <form (submit)="editar ? guardarCambiosInt() : crearInteraccion(interaccion)" #oporEdit>
+                <label for="accion">Acción de interaccion:</label>
+                <select name="accion" [(ngModel)]="interaccion.actionInteraction" required
+                class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
+                    <option value="llamada">Llamada telefónica</option>
+                    <option value="correo">Envío documentación física</option>
+                    <option value="reunion">Reunión presencial</option>
+                    <option value="mensaje">Enviar correo electrónico</option>
+                    <option value="factura">Generación de factura</option>
+                    <option value="revision">Revisión de documentos legales</option>
+                    <option value="investigacion">Investigación adicional</option>
+                    <option value="recordatorio">Envío de recordatorio de cita</option>
+                    <option value="asesoramiento">Asesoramiento legal telefónico</option>
+                    <option value="visita">Visita a la oficina del cliente</option>
+                    <option value="negociacion">Negociación con otras partes</option>
+                    <option value="actualizacion">Actualización de estado del caso</option>
+                    <option value="comparecencia">Preparación para comparecencia en tribunal</option>
+                    <option value="entrega">Entrega de documentos legales</option>
+                    <option value="entrevistas">Realización de entrevistas con testigos</option>
+                    <option value="investigacion_precedentes">Investigación de precedentes legales</option>
+                    <option value="estrategia">Preparación de estrategia legal</option>
+                </select>              
+                <label for="descriptionInteraction" >Descripción:</label>
+                <textarea class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" [(ngModel)]="interaccion.descriptionInteraction" name="descriptionOportunity" required></textarea>
+
+                <div class="col-span-2 mb-4">
+                    <button type="submit" class="bg-sky-900 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">{{editar ? 'Guardar Cambios' : 'Crear' }}</button>
+                    <button type="button" class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ml-4" (click)="onCancel()"> Cancelar </button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal5'" (closeModalEvent)="cerrarModal()">
+    <div class="container mx-auto my-8 text-sky-900">
+        <div class="mx-auto bg-white p-6">
+            <h2 class="text-2xl font-bold mb-4">Crear Oportunidad</h2>
+            <form (submit)="nuevaOpor()" #newOpor>
+                <div class="mb-4">
+                    <label for="nombre" class="block text-sky-900 font-bold mb-2">Nombre del servicio:</label>
+                    <select id="nombre" name="nombre" [(ngModel)]="nuevaOportunidad.nameOportunity" required
+                        class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="" disabled selected>Elige un servicio</option>
+                        <option value="Asesoría legal">Asesoría legal</option>
+                        <option value="Representación">Representación</option>
+                        <option value="Investigación jurídica">Investigación jurídica</option>
+                        <option value="Redacción de documentos jurídicos">Redacción de documentos jurídicos</option>
+                        <option value="Negociación">Negociación</option>
+                        <option value="Mediación">Mediación</option>
+                        <option value="Otros">Otro tipo</option>
+                    </select>
+                </div>
+                <div class="mb-6 h-52">
+                    <label for="descriptionOportunity" class="block text-sky-900 font-bold mb-2">Descripción:</label>
+                    <textarea placeholder="Danos una corta introducción a tu necesidad..." id="descriptionOportunity" name="descriptionOportunity"
+                        [(ngModel)]="nuevaOportunidad.descriptionOportunity" required
+                        class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-3/4"></textarea>
+                </div>
+                <div class="text-sky-900 font-bold text-center mb-2">
+                    <label for="userGestor" class="block text-sky-900 font-bold mb-2">Asesor encargado:</label>
+                    <select id="userGestor" name="userGestor" [(ngModel)]="nuevaOportunidad.userGestor" required
+                        class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        @for (usuario of usuarios; track $index) {
+                            @if(usuario.rol === 'Asesor' || usuario.rol === 'Gerente'){
+                                <option [value]="usuario._id">{{ usuario.nombre }}</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="text-sky-900 font-bold text-center mb-2">
+                    <label for="userGestor" class="block text-sky-900 font-bold mb-2">Cliente:</label>
+                    <select for="userCliente" name="userCliente" [(ngModel)]="nuevaOportunidad.userCliente" required
+                        class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        @for (usuario of usuarios; track $index) {
+                        <option [value]=usuario._id>{{usuario.login}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-span-2 mb-4">
+                    <button type="submit" class="bg-sky-900 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">Crear</button>
+                    <button type="button" class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ml-4" (click)="onCancel()"> Cancelar </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal6'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+          <p>¿Está seguro de que desea eliminar esta interacción?</p>
+          <p class="text-lg text-orange-500">{{ interaccion.actionInteraction }}</p>
+        </div>
+        <div class="mt-4">
+          <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2" (click)="eliminarInteraccion(interaccion)">Confirmar</button>
+          <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+        </div>
+    </div>    
+</app-modal>

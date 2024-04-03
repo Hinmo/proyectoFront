@@ -1,0 +1,28 @@
+<form class="login-form" [formGroup]="loginForm" (submit)="realizoLogin()">
+  <div class="form-group mb-4">
+    <label class="block">Nombre de Usuario:</label>
+    <input type="text" formControlName="login" class="border border-sky-900 rounded px-3 py-2 w-full" required>
+    @if (login?.invalid && login?.touched) {
+    <div>
+      <small class="text-red-500">El nombre de usuario es obligatorio</small>
+    </div>
+    }
+  </div>
+  <div class="form-group mb-4">
+    <label class="block">Contraseña:</label>
+    <input type="password" formControlName="password" class="border border-sky-900 rounded px-3 py-2 w-full" required>
+    @if (password?.invalid && password?.touched) {
+      <div>
+        <small class="text-red-500">la contraseña es obligatoria</small>
+      </div>
+        @if (password?.hasError('minlength')) {
+            <small class="text-red-500">tiene una longitud minima</small>
+          }
+      }
+    <p class="text-xs p-2">¿Has olvidado tu contraseña? <a class="text-orange-500" routerLink="recuperar" (click)="registrarse()">Click aqui</a></p>
+  </div>
+  <div class="flex justify-between mb-4">
+    <button type="submit" class="bg-sky-900 text-sky-100 rounded px-4 py-2 hover:bg-orange-500" [disabled]="!loginForm.valid">Ingresa</button>
+    <button routerLink="registro" class="bg-sky-900 text-sky-100 rounded px-4 py-2 hover:bg-orange-500" (click)="registrarse()">Regístrate</button>
+  </div>
+</form>

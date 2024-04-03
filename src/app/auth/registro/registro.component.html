@@ -1,0 +1,57 @@
+<div class="container mx-auto my-16 text-sky-900">
+    <div class="max-w-6xl mx-auto bg-white p-6 rounded-md shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Registro</h2>
+        <form [formGroup]="registroForm" (submit)="crearUsuario()" class="grid grid-cols-2 gap-4">
+            <div class="mb-4">
+                <label for="nombre" class="block font-semibold mb-1">Nombre Completo:</label>
+                <input type="text" id="nombre" formControlName="nombre" required class="w-full px-3 py-2 border border-gray-300 rounded-md" [class.proyecto-invalid-field]="registroForm.get('nombre')?.invalid && (registroForm.get('nombre')?.dirty || registroForm.get('nombre')?.touched)">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block font-semibold mb-1">Correo Electrónico:</label>
+                <input type="email" id="email"  formControlName="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md" [class.proyecto-invalid-field]="registroForm.get('email')?.invalid && (registroForm.get('email')?.dirty || registroForm.get('email')?.touched)">
+            </div>
+            <div class="mb-4">
+                <label for="celular" class="block font-semibold mb-1">Teléfono:</label>
+                <input type="text" id="celular"  formControlName="celular" required class="w-full px-3 py-2 border border-gray-300 rounded-md" [class.proyecto-invalid-field]="registroForm.get('celular')?.invalid && (registroForm.get('celular')?.dirty || registroForm.get('celular')?.touched)">
+            </div>
+            <div class="mb-4">
+                <label for="direccion" class="block font-semibold mb-1">Dirección:</label>
+                <input type="text" id="direccion"  formControlName="direccion" required class="w-full px-3 py-2 border border-gray-300 rounded-md" [class.proyecto-invalid-field]="registroForm.get('direccion')?.invalid && (registroForm.get('direccion')?.dirty || registroForm.get('direccion')?.touched)">
+            </div>
+            <div class="mb-4">
+                <label for="tipoDocumento" class="block font-semibold mb-1">Tipo de Documento:</label>
+                <select id="tipoDocumento" formControlName="tipoDocumento" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                    <option value="Cédula ciudadanía">Cédula ciudadanía</option>
+                    <option value="Cédula extranjería">Cédula extranjería</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="numeroDocumento" class="block font-semibold mb-1">Número de Documento:</label>
+                <input type="text" id="numeroDocumento"  formControlName="numeroDocumento" required class="w-full px-3 py-2 border border-gray-300 rounded-md" [class.proyecto-invalid-field]="registroForm.get('numeroDocumento')?.invalid && (registroForm.get('numeroDocumento')?.dirty || registroForm.get('numeroDocumento')?.touched)">
+            </div>
+            <div class="mb-4">
+                <label for="login" class="block font-semibold mb-1">Nombre de Usuario:</label>
+                <input type="text" id="login"  formControlName="login" required class="w-full px-3 py-2 border border-gray-300 rounded-md" [class.proyecto-invalid-field]="registroForm.get('login')?.invalid && (registroForm.get('login')?.dirty || registroForm.get('login')?.touched)">
+            </div>
+            <div class="mb-4 flex items-center col-span-2">
+                <div class="w-full relative">
+                    <label for="password" class="block font-semibold mb-1">Contraseña:</label>
+                    <input type="{{ showPassword ? 'text' : 'password' }}" id="password"  formControlName="password" (ngModel)="password" required class="w-full px-3 py-2 border border-gray-300 rounded-md pr-10" [class.proyecto-invalid-field]="registroForm.get('password')?.invalid && (registroForm.get('password')?.dirty || registroForm.get('password')?.touched)">
+                    <span class="absolute inset-y-0 right-0 flex items-center pr-3 mt-8">
+                        <button type="button" [class]="showPassword ? 'text-orange-500' : ''" (click)="mostrarPass()">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </span>
+                </div>               
+                <div class="w-full relative ml-4">
+                    <label for="confirm_password" class="block font-semibold mb-1">Confirmar Contraseña:</label>
+                    <input type="password" id="confirm_password"  formControlName="confirm_password" required class="w-full px-3 py-2 border border-gray-300 rounded-md pr-10" [class.proyecto-invalid-field]="registroForm.get('confirm_password')?.invalid && (registroForm.get('confirm_password')?.dirty || registroForm.get('confirm_password')?.touched)">
+                </div>
+            </div>
+            <div class="col-span-2">
+                <button type="submit" class="bg-sky-900 text-sky-100 px-4 py-2 rounded-md font-semibold">Registrarse</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="flex flex-col items-center justify-center h-screen">
+
+    <div class="w-8/12 mb-6 flex justify-center">
+      <div class="h-120">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="barChartOptions"
+          class="w-full h-full"
+        ></highcharts-chart>
+      </div>
+    </div>
+  
+    <div class="w-8/12 flex justify-center">
+      <div class="w-1/2 h-96 mr-4 mb-6">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="chartOptions"
+          class="w-full h-full"
+        ></highcharts-chart>
+      </div>
+      <div class="w-1/2 h-96 ml-4 mb-6">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="bigChartOptions"
+          class="w-full h-full"
+        ></highcharts-chart>
+      </div>
+    </div>
+  </div>
+  

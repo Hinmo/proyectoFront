@@ -1,0 +1,36 @@
+<form [formGroup]="formularioRecuperacion" (ngSubmit)="onSubmit()" class="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 my-48">
+  <div class="bg-sky-900 p-2 rounded-full w-24 h-24 flex items-center justify-center mb-4">
+      <img src="./assets/img/logo.png" alt="logo">
+  </div>
+  <div class="mb-4">
+      <label for="email" class="block text-sky-900 text-sm font-bold mb-2">Email de Usuario:</label>
+      <input type="text" formControlName="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-sky-900 leading-tight focus:outline-none focus:shadow-outline">
+  </div>
+  <div class="mb-6">
+      <label for="numeroDocumento" class="block text-sky-900 text-sm font-bold mb-2">Número de Documento:</label>
+      <input type="text" formControlName="numeroDocumento" class="shadow appearance-none border rounded w-full py-2 px-3 text-sky-900 leading-tight focus:outline-none focus:shadow-outline">
+  </div>
+  <button type="submit" [disabled]="!formularioRecuperacion.valid" class="bg-sky-900 hover:bg-sky-800 text-sky-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Recuperar Contraseña</button>
+</form>
+
+  
+
+@if (isModalOpen) {
+    <app-modal [isOpen]="isModalOpen" (closeModalEvent)="onModalClose()">
+      <button (click)="onModalClose()" class="absolute text-4xl top-6 right-6 hover:text-orange-500">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <form [formGroup]="newPassForm" (ngSubmit)="onSubmitNewPassForm()" class="max-w-md mx-auto bg-white px-8 pt-6 pb-8 mb-4">
+        <div class="mb-4">
+          <label for="password" class="block text-sky-900 text-sm font-bold mb-2">Nueva Contraseña:</label>
+          <input type="password" formControlName="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-sky-900 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-6">
+          <label for="confirmarContrasena" class="block text-sky-900 text-sm font-bold mb-2">Confirmar Nueva Contraseña:</label>
+          <input type="password" formControlName="confirmarContrasena" class="shadow appearance-none border rounded w-full py-2 px-3 text-sky-900 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <button type="submit" [disabled]="!newPassForm.valid" class="bg-sky-900 hover:bg-sky-800 text-sky-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Establecer Nueva Contraseña</button>
+      </form>
+      <p class="text-sky-900 font-bold text-sm">Tiempo restante para cambiar contraseña: <span class="text-orange-500">{{ formatoTiempo(tiempoExpiracion) }}</span></p>
+    </app-modal>
+    }

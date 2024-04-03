@@ -1,0 +1,108 @@
+@if (usuario) {
+    <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-md p-8 m-4">
+        <div class="bg-sky-900 p-2 rounded-full w-40 h-40 flex items-center justify-center mb-4">
+            <img src="./assets/img/logo.png" alt="Logo" />
+        </div>
+        <h1 class="text-3xl font-bold mb-10 text-sky-900 self-center text-center">Perfil de {{ usuario.login }}</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sky-900">
+            <div class="md:border md:border-gray-300 md:rounded-lg md:p-4 md:mb-4 md:shadow-sm md:w-full">
+                <label class="text-lg mb-2 block"><span class="font-semibold">Email:</span>
+                    <input [(ngModel)]="usuario.email" class="border-b-2 border-gray-300 outline-none focus:border-sky-500 block w-full" [readonly]="!editMode" (change)="capturarCambios()" />
+                </label>
+                <label class="text-lg mb-2 block"><span class="font-semibold">Teléfono:</span>
+                    <input [(ngModel)]="usuario.celular" class="border-b-2 border-gray-300 outline-none focus:border-sky-500 block w-full" [readonly]="!editMode" (change)="capturarCambios()" />
+                </label>
+                <label class="text-lg mb-2 block"><span class="font-semibold">Dirección:</span>
+                    <textarea [(ngModel)]="usuario.direccion" class="border-b-2 border-gray-300 outline-none focus:border-sky-500 block w-full resize-none" [readonly]="!editMode" (change)="capturarCambios()"></textarea>
+                </label>
+            </div>
+            <div class="md:border md:border-gray-300 md:rounded-lg md:p-4 md:mb-4 md:shadow-sm md:w-full">
+                <label class="text-lg mb-2 block"><span class="font-semibold">Tipo de documento:</span>
+                    <input [(ngModel)]="usuario.tipoDocumento" class="border-b-2 border-gray-300 outline-none focus:border-sky-500 block w-full" [readonly]="!editMode" (change)="capturarCambios()" />
+                </label>
+                <label class="text-lg mb-2 block"><span class="font-semibold">Número de documento:</span>
+                    <input [(ngModel)]="usuario.numeroDocumento" class="border-b-2 border-gray-300 outline-none focus:border-sky-500 block w-full" [readonly]="!editMode" (change)="capturarCambios()" />
+                </label>
+                <label class="text-lg mb-2 block"><span class="font-semibold">Nombre y Apellido:</span>
+                    <textarea [(ngModel)]="usuario.nombre" class="border-b-2 border-gray-300 outline-none focus:border-sky-500 block w-full resize-none" [readonly]="!editMode" (change)="capturarCambios()"></textarea>
+                </label>
+            </div>
+        </div>
+        <div class="flex justify-end">
+            <button class="mt-8 bg-sky-900 text-white py-2 px-4 rounded hover:bg-green-500 mr-2" (click)="guardarCambios()">
+                {{ editMode ? 'Guardar cambios' : 'Editar perfil' }}
+            </button>          
+            @if (editMode) {
+            <button class="mt-8 bg-orange-500 text-white py-2 px-4 rounded hover:bg-red-500 mr-2" (click)="toggleEditMode()">
+                Cancelar
+            </button>
+            }
+            <button class="mt-8 bg-sky-900 text-white py-2 px-4 rounded hover:bg-orange-500" (click)="abrirModal3()">Cambiar contraseña</button>
+        </div>
+
+        <div class="max-w-fit mx-auto text-sm text-gray-600 mt-4">
+            Si deseas darte de baja, puedes hacerlo haciendo clic en <a (click)="abrirModal1()" class="text-orange-500 hover:underline hover:cursor-pointer">este enlace</a>.
+        </div>
+        
+        <div class="max-w-fit mx-auto text-sm text-gray-600 mt-2">
+            Si prefieres eliminar por completo tu información de nuestro sistema, por favor, haz clic en <a (click)="abrirModal2()" class="text-orange-500 hover:underline hover:cursor-pointer">este enlace</a>.
+        </div>
+
+    </div>
+    
+    
+    
+}    
+
+<app-modal [isOpen]="modalAbierto === 'modal1'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+          <p>¿Está seguro de que desea desactivar su cuenta?</p>
+          <p class="text-lg text-orange-500">{{ usuario?.login }}</p>
+        </div>
+        <div class="mt-4">
+          <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2" (click)="cambiarEstadoUsuario(usuario)">Confirmar</button>
+          <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+        </div>
+    </div>    
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal2'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+          <p>¿Está seguro de que desea eliminar su cuenta?</p>
+          <p>Esta acción es irreversible y tendrá que crear una nueva cuenta para poder acceder</p>
+          <p class="text-lg text-orange-500">{{ usuario?.login }}</p>
+        </div>
+        <div class="mt-4">
+          <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2" (click)="eliminarUsuarioConfirmado(usuario)">Confirmar</button>
+          <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+        </div>
+    </div>    
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal3'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <form [formGroup]="contrasenaForm" (submit)="cambiarContrasena()" class="max-w-md mx-auto bg-white rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+              <label class="block text-sky-900   text-sm font-bold mb-2" for="password">Nueva contraseña:</label>
+              <input type="password" formControlName="password" required
+                     class="shadow appearance-none border rounded w-full py-2 px-3 text-sky-900  leading-tight focus:outline-none focus:shadow-outline">
+            </div>          
+            <div class="mb-6">
+              <label class="block text-sky-900   text-sm font-bold mb-2" for="confirmPassword">Confirmar contraseña:</label>
+              <input type="password" formControlName="confirmPassword" required
+                     class="shadow appearance-none border rounded w-full py-2 px-3 text-sky-900  leading-tight focus:outline-none focus:shadow-outline">
+            </div>          
+            <div class="flex items-center justify-between">
+              <button type="submit" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Confirmar
+              </button>
+              <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      (click)="cerrarModal()">
+                Cancelar
+              </button>
+            </div>          
+        </form>          
+    </div>    
+</app-modal>

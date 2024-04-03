@@ -1,0 +1,57 @@
+<section class="mx-auto table-custom-width my-4 xl:w-1/2">  
+    <h1 class="font-bold text-4xl text-center text-sky-900 mb-4">Interacciones</h1>
+    <app-table [headers]="headNames" [datos]="interacciones" [columnasMapeo]="headMap" [acciones]="acciones" (accionSeleccionada)="ejecutarAccion($event)"></app-table>
+</section>
+
+<app-modal [isOpen]="modalAbierto === 'modal1'" (closeModalEvent)="cerrarModal()">
+    <div class="container mx-auto my-8 text-sky-900">
+        <div class="mx-auto bg-white p-6">
+            <h2 class="text-2xl font-bold mb-4">Editar interacción</h2>
+            @if (interaccion) {
+            <form (submit)="guardarCambiosInt()" #oporEdit>
+                <label for="accion">Acción de interaccion:</label>
+                <select name="accion" [(ngModel)]="interaccion.actionInteraction" required
+                class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
+                    <option value="llamada">Llamada telefónica</option>
+                    <option value="correo">Envío de correo electrónico</option>
+                    <option value="reunion">Reunión presencial</option>
+                    <option value="mensaje">Enviar correo electrónico</option>
+                    <option value="factura">Generación de factura</option>
+                    <option value="revision">Revisión de documentos legales</option>
+                    <option value="investigacion">Investigación adicional</option>
+                    <option value="recordatorio">Envío de recordatorio de cita</option>
+                    <option value="asesoramiento">Asesoramiento legal telefónico</option>
+                    <option value="visita">Visita a la oficina del cliente</option>
+                    <option value="negociacion">Negociación con otras partes</option>
+                    <option value="actualizacion">Actualización de estado del caso</option>
+                    <option value="comparecencia">Preparación para comparecencia en tribunal</option>
+                    <option value="entrega">Entrega de documentos legales</option>
+                    <option value="entrevistas">Realización de entrevistas con testigos</option>
+                    <option value="investigacion_precedentes">Investigación de precedentes legales</option>
+                    <option value="estrategia">Preparación de estrategia legal</option>
+                </select>              
+                <label for="descripcion" >Descripción:</label>
+                <textarea class="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" [(ngModel)]="interaccion.descriptionInteraction" name="descripcion" required></textarea>
+
+                <div class="col-span-2 mb-4">
+                    <button type="submit" class="bg-sky-900 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">'Guardar Cambios</button>
+                    <button type="button" class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ml-4" (click)="cerrarModal()"> Cancelar </button>
+                </div>
+            </form>
+            }
+        </div>
+    </div>
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal2'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+          <p>¿Está seguro de que desea eliminar esta interacción?</p>
+          <p class="text-lg text-orange-500">{{ interaccion?.actionInteraction }}</p>
+        </div>
+        <div class="mt-4">
+          <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2" (click)="eliminarInteraccion(interaccion)">Confirmar</button>
+          <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+        </div>
+    </div>    
+</app-modal>

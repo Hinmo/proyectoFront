@@ -1,0 +1,108 @@
+<section class="mx-auto table-custom-width justify-between my-4">   
+    <h1 class="font-bold text-4xl text-center text-sky-900">Clientes</h1>
+    <app-table [headers]="headNames" [datos]="usuarios" [columnasMapeo]="headMap" [acciones]="acciones" (accionSeleccionada)="ejecutarAccion($event)"></app-table>
+</section>
+
+<app-modal [isOpen]="modalAbierto === 'modal1'" (closeModalEvent)="cerrarModal()">
+    <div class="container mx-auto my-8 text-sky-900">
+        <div class="mx-auto bg-white p-6">
+            <h2 class="text-2xl font-bold mb-4">Editar Usuario</h2>
+            <form [formGroup]="editarForm" (submit)="onSubmit()" class="grid grid-cols-2 gap-4">
+                <div class="mb-4">
+                    <label for="nombre" class="block font-semibold mb-1">Nombre Completo:</label>
+                    <input type="text" id="nombre" formControlName="nombre" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block font-semibold mb-1">Correo Electrónico:</label>
+                    <input type="email" id="email" formControlName="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="celular" class="block font-semibold mb-1">Teléfono:</label>
+                    <input type="text" id="celular" formControlName="celular" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="direccion" class="block font-semibold mb-1">Dirección:</label>
+                    <input type="text" id="direccion" formControlName="direccion" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="tipoDocumento" class="block font-semibold mb-1">Tipo de Documento:</label>
+                    <select id="tipoDocumento" formControlName="tipoDocumento" class="appearance-none border rounded py-2 px-2 leading-tight" required>
+                        <option value="Cédula ciudadanía">Cédula ciudadanía</option>
+                        <option value="Cédula extranjería">Cédula extranjería</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="numeroDocumento" class="block font-semibold mb-1">Número de Documento:</label>
+                    <input type="text" id="numeroDocumento" formControlName="numeroDocumento" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="login" class="block font-semibold mb-1">Login:</label>
+                    <input type="text" id="login" formControlName="login" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="rol" class="block font-semibold mb-1">Rol:</label>
+                    <input type="text" id="rol" formControlName="rol" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="estado" class="block font-semibold mb-1">Estado:</label>
+                    <select id="estado" formControlName="estado" class="appearance-none border rounded py-2 px-2 leading-tight" required>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+                <div class="col-span-2">
+                    <button type="submit" class="bg-sky-900 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">Guardar Cambios</button>
+                    <button type="button" class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ml-4" (click)="onCancel()"> Cancelar </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal2'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+          <p>¿Está seguro de que desea eliminar este usuario?</p>
+          <p class="text-lg text-orange-500">{{ usuario?.login }}</p>
+        </div>
+        <div class="mt-4">
+          <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2" (click)="eliminarUsuarioConfirmado(usuario)">Confirmar</button>
+          <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+        </div>
+    </div>    
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal3'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+          <p>¿Está seguro de que desea cambiar el estado de este usuario?</p>
+          <p class="text-lg text-orange-500">{{ usuario?.login }}</p>
+        </div>
+        <div class="mt-4">
+          <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2" (click)="cambiarEstadoUsuario(usuario)">Confirmar</button>
+          <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+        </div>
+    </div>    
+</app-modal>
+
+<app-modal [isOpen]="modalAbierto === 'modal4'" (closeModalEvent)="cerrarModal()">
+    <div class="flex flex-col items-center justify-center h-full">
+        <div class="text-sky-900 font-bold text-center">
+            <p>Selecciona el nuevo rol para:</p>
+            <p class="text-lg text-orange-500">{{ usuario?.login }}</p>
+        </div>
+        <div class="mt-4 flex flex-col items-center">
+            <select class="py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-indigo-500" [(ngModel)]="nuevoRol">
+                <option value="Cliente">Cliente</option>
+                <option value="Asesor">Asesor</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Gerente">Gerente</option>
+            </select>
+            <div class="mt-4">
+                <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mr-2" (click)="cambiarRolUsuario(usuario, nuevoRol)">Confirmar</button>
+                <button class="bg-orange-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" (click)="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>    
+</app-modal>

@@ -1,0 +1,11 @@
+<@if (isOpen) {
+    <div class="fixed inset-0 flex items-center justify-center z-50">
+        <div class="absolute inset-0 bg-black opacity-80"></div>
+        <div class="relative bg-white p-8 rounded-lg max-w-2xl text-sky-900">
+          <div class="bg-sky-900 p-2 rounded-full w-20 h-20 flex items-center justify-center mb-4">
+            <img src="./assets/img/logo.png" alt="logo">
+          </div>
+          <ng-content></ng-content>
+        </div>
+    </div>
+}

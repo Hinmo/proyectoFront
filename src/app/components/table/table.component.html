@@ -1,0 +1,28 @@
+<input type="text" [(ngModel)]="searchTerm" (keyup)="filterData()" placeholder="Buscar..." class="mb-2 h-8 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-900 focus:border-sky-900">
+<table class="w-fit text-sm">
+  <thead class="bg-sky-900 text-sky-100">
+    <tr>
+      @for (header of headers; track header) {
+        <th class="px-4 py-2">{{ columnasMapeo[header] }}</th>
+      }
+      <th class="px-4 py-2">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (dato of filteredData; track dato) {
+      <tr class="text-sky-900 odd:bg-sky-50 even:bg-sky-200">
+        @for (header of headers; track header) {
+          <td class="border px-4 py-2">{{ dato[header] }}</td>
+        }
+        <td class="border px-4 py-2 space-x-2 text-xl text-center">
+          <select (change)="ejecutarAccion($event)" class="text-xs px-4 py-2 rounded-md border border-gray-300 bg-white text-sky-900 shadow-sm focus:outline-none focus:border-sky-900">
+            <option value="">Seleccionar acción...</option>
+            @for (accion of acciones; track accion) {
+              <option [value]="accion.evento" [ngStyle]="{'color': accion.nombre === 'Eliminar' ? 'red' : 'initial'}">{{ accion.nombre }}</option>
+            }
+          </select>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
