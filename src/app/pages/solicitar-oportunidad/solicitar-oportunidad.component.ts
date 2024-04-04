@@ -71,7 +71,7 @@ export class SolicitarOportunidadComponent {
         },
         error: (error) => {
           Swal.fire({
-            title: "No se puedo solicitar el servicio",
+            title: "No se pudo solicitar el servicio",
             text: error.error.msg,
             icon: "error"
           });
