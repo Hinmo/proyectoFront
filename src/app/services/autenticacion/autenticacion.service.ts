@@ -113,12 +113,11 @@ export class AutenticacionService {
 
   private tokenExpired(): boolean {
     const token = localStorage.getItem('token');
-    if (!token) return true; 
-    const tokenPayload = JSON.parse(atob(token.split('.')[1]));
-    const tokenExpiration = tokenPayload.exp * 1000; 
-    return Date.now() >= tokenExpiration; 
+    const tokenPayload = token ? JSON.parse(atob(token.split('.')[1])) : null;
+    const tokenExpiration = tokenPayload?.exp * 1000; 
+    return tokenExpiration ? Date.now() >= tokenExpiration : false; 
   }
-
+  
   logoutExpiredSession(): void {
     if (this.tokenExpired()) {
       localStorage.removeItem('token');
