@@ -1,6 +1,6 @@
 <section class="mx-auto table-custom-width justify-between my-4">   
     <h1 class="font-bold text-4xl text-center text-sky-900">Clientes</h1>
-    <app-table [headers]="headNames" [datos]="usuarios" [columnasMapeo]="headMap" [acciones]="acciones" (accionSeleccionada)="ejecutarAccion($event)"></app-table>
+    <app-table *appPermisos="['GERENTE', 'SUPERVISOR']" [headers]="headNames" [datos]="usuarios" [columnasMapeo]="headMap" [acciones]="acciones" (accionSeleccionada)="ejecutarAccion($event)"></app-table>
 </section>
 
 <app-modal [isOpen]="modalAbierto === 'modal1'" (closeModalEvent)="cerrarModal()">

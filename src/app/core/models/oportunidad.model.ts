@@ -1,5 +1,3 @@
-import { InteraccionModel } from "./interaccion.model";
-
 export class OportunidadModel {
     constructor(
         public nameOportunity: string,

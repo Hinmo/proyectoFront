@@ -9,13 +9,14 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { UsuarioModel } from '../../core/models/usuario.model';
 import { UsuariosService } from '../../services/usuarios/usuario.service';
+import { PermisosDirective } from '../../core/directives/permisos/permisos.directive';
 
 @Component({
     selector: 'app-oportunidades',
     standalone: true,
     templateUrl: './oportunidades.component.html',
     styleUrl: './oportunidades.component.css',
-    imports: [TableComponent, ModalComponent, FormsModule]
+    imports: [TableComponent, ModalComponent, FormsModule, PermisosDirective]
 })
 export class OportunidadesComponent implements OnInit {
   @ViewChild('newOpor') opor: ElementRef<HTMLFormElement>;

@@ -6,13 +6,14 @@ import { OportunidadService } from '../../services/oportunidad/oportunidad.servi
 import Swal from 'sweetalert2';
 import { ModalComponent } from "../../components/modal/modal.component";
 import { FormsModule } from '@angular/forms';
+import { PermisosDirective } from '../../core/directives/permisos/permisos.directive';
 
 @Component({
     selector: 'app-interacciones',
     standalone: true,
     templateUrl: './interacciones.component.html',
     styleUrl: './interacciones.component.css',
-    imports: [TableComponent, ModalComponent, FormsModule]
+    imports: [TableComponent, ModalComponent, FormsModule, PermisosDirective]
 })
 export class InteraccionesComponent {
   @ViewChild('oporEdit') form: ElementRef<HTMLFormElement>;

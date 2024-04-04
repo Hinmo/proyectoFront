@@ -7,13 +7,15 @@ import { ModalComponent } from "../../components/modal/modal.component";
 import { FormsModule } from '@angular/forms';
 import { UsuariosService } from '../../services/usuarios/usuario.service';
 import { UsuarioModel } from '../../core/models/usuario.model';
+import Swal from 'sweetalert2';
+import { PermisosDirective } from '../../core/directives/permisos/permisos.directive';
 
 @Component({
     selector: 'app-asignar-oportunidad',
     standalone: true,
     templateUrl: './asignar-oportunidad.component.html',
     styleUrl: './asignar-oportunidad.component.css',
-    imports: [TableComponent, ModalComponent, FormsModule]
+    imports: [TableComponent, ModalComponent, FormsModule, PermisosDirective]
 })
 export class AsignarOportunidadComponent implements OnInit {
   usuarios: UsuarioModel[] = [];
@@ -80,12 +82,18 @@ export class AsignarOportunidadComponent implements OnInit {
           this.oportunidades = this.transformarOportunidades(resp.oportunidad);
         } else {
           console.error('Error al obtener las oportunidades:', resp.msg);
-          // mostrar un mensaje de error al usuario
+          Swal.fire({
+            title: "Error al obtener las oportunidades",
+            icon: "error"
+          });
         }
       },
       error: (error) => {
-        console.error('Error al obtener las oportunidades:', error);
-        //mostrar un mensaje de error al usuario o tomar otras acciones según sea necesario
+        Swal.fire({
+          title: "Error al obtener oportunidades",
+          text: error.error.msg,
+          icon: "error"
+        });
       }
     });
   }
@@ -124,7 +132,11 @@ export class AsignarOportunidadComponent implements OnInit {
           this.cerrarModal();
         },
         error: (error) => {
-          console.error('Error al asignar gestor a la oportunidad:', error);
+          Swal.fire({
+            title: "No se pudo asignar la oportunidad",
+            text: error.error.msg,
+            icon: "error"
+          });
           },
       });
     }
@@ -136,8 +148,6 @@ export class AsignarOportunidadComponent implements OnInit {
     });
   }
   
-
-
   eliminarOportunidad(oportunidad: OportunidadModel | null): void {
     if (oportunidad?._id) {
         this.getOpor.eliminarOportunidad(oportunidad._id).subscribe({
@@ -146,7 +156,11 @@ export class AsignarOportunidadComponent implements OnInit {
                 this.cerrarModal();
             },
             error: (error) => {
-                console.error('Error al eliminar oportunidad:', error);
+              Swal.fire({
+                title: "Error al eliminar oportunidad",
+                text: error.error.msg,
+                icon: "error"
+              });
             },
         });
       }

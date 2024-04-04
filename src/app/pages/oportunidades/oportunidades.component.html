@@ -1,9 +1,9 @@
-<div class="grid grid-cols-1 mb-8">
+<div *appPermisos="['GERENTE', 'SUPERVISOR', 'ASESOR']" class="grid grid-cols-1 mb-8">
     <div [class]="mostrarInteracciones ? 'col-span-1 overflow-y-auto h-3/5' : 'col-span-1 overflow-y-auto h-fit' ">
         <section class="mx-auto table-custom-width mt-4">
             <div class="flex justify-between items-center mb-4">
                 <h1 class="font-bold text-4xl text-center text-sky-900 flex-grow">Oportunidades</h1>
-                <button class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition-colors duration-300" (click)="abrirModal5()">
+                <button *appPermisos="['GERENTE', 'SUPERVISOR']" class="bg-sky-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition-colors duration-300" (click)="abrirModal5()">
                     Agregar Nueva Oportunidad
                 </button>
             </div>

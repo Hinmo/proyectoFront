@@ -4,6 +4,7 @@ import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModu
 import { UsuariosService } from '../../services/usuarios/usuario.service';
 import { UsuarioModel } from '../../core/models/usuario.model';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro',
@@ -61,20 +62,27 @@ export class RegistroComponent implements OnInit{
         password: this.registroForm.value.password,
       };
       this.userService.crearUsuario(usuario).subscribe({
-        next: (response: any) => {
-          console.log('Usuario creado correctamente', response);
+        next: () => {
+          Swal.fire({
+            title: "Usuario creado con exito",
+            icon: "success"
+          });;
           this.registroForm.reset();
           this.router.navigate(['']);
-          // si funciona y el form es valido
         },
         error: (error) => {
-          console.error('Error al crear usuario', error);
-          // sino funciona pero el form es valido
+          Swal.fire({
+            title: "Error al crear usuario",
+            text: error.error.msg,
+            icon: "error"
+          });
         }
       });
     } else {
-      // Si el formulario no es válido
-      console.error('Formulario inválido');
+      Swal.fire({
+        title: "Por favor rellene los datos del formulario de manera adecuada",
+        icon: "warning"
+      });
     }
   }
 

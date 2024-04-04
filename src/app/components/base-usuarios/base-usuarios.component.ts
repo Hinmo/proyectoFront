@@ -3,6 +3,7 @@ import { UsuarioModel } from '../../core/models/usuario.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuariosService } from '../../services/usuarios/usuario.service';
 import { format } from 'date-fns';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-base-usuarios',
@@ -114,7 +115,7 @@ export class BaseUsuariosComponent implements OnInit {
           : '',
         updateAt: usuario.updateAt 
           ? this.formatDate(usuario.updateAt.toString())
-          : '', // Aquí asignamos la fecha de modificación correctamente
+          : '', 
       }))
       .sort((a, b) => a.nombre.localeCompare(b.nombre));
   }
@@ -182,7 +183,11 @@ export class BaseUsuariosComponent implements OnInit {
                 this.cerrarModal();
             },
             error: (error) => {
-                console.error('Error al eliminar usuario:', error);
+              Swal.fire({
+                title: "Error al eliminar el usuario",
+                text: error.error.msg,
+                icon: "error"
+              });
             },
         });
       }
@@ -202,7 +207,11 @@ export class BaseUsuariosComponent implements OnInit {
                 this.cerrarModal();
             },
             error: (error) => {
-                console.error('Error al cambiar el rol del usuario:', error);
+              Swal.fire({
+                title: "Error al cambiar el rol",
+                text: error.error.msg,
+                icon: "error"
+              });
             },
         });
     }
@@ -217,7 +226,11 @@ export class BaseUsuariosComponent implements OnInit {
                 this.cerrarModal();
             },
             error: (error) => {
-                console.error('Error al cambiar el estado de usuario:', error);
+              Swal.fire({
+                title: "Error al cambiar el estado",
+                text: error.error.msg,
+                icon: "error"
+              });
             },
         });
     }

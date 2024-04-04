@@ -4,11 +4,12 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import Highcharts from 'highcharts/es-modules/masters/highcharts.src';
 import { OportunidadModel } from '../../core/models/oportunidad.model';
 import { OportunidadService } from '../../services/oportunidad/oportunidad.service';
+import { PermisosDirective } from '../../core/directives/permisos/permisos.directive';
 
 @Component({
   selector: 'app-charts',
   standalone: true,
-  imports: [HighchartsChartModule, CommonModule],
+  imports: [HighchartsChartModule, CommonModule, PermisosDirective],
   templateUrl: './charts.component.html',
   styleUrl: './charts.component.css'
 })
@@ -75,7 +76,6 @@ export class ChartsComponent implements OnInit {
     const porcentajesPorEstado: { [key: string]: number } = {};
     for (const estado in oportunidadesPorEstado) {
       const porcentaje = (oportunidadesPorEstado[estado] / totalOportunidades) * 100;
-      // Limitar el número de decimales a 2
       porcentajesPorEstado[estado] = parseFloat(porcentaje.toFixed(2));
     }
     this.crearPieChart(porcentajesPorEstado);

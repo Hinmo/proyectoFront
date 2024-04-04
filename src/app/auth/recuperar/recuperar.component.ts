@@ -65,18 +65,18 @@ export class RecuperarComponent implements OnInit, OnDestroy {
             }
           },
           error: (error: any) => {
-            console.error(
-              'Error en la solicitud de recuperación de contraseña:',
-              error
-            );
-            // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+            Swal.fire({
+              title: "Error en la solicitud",
+              text: error.error.msg,
+              icon: "error"
+            });
           },
         });
     } else {
-      console.error(
-        'Formulario no válido. Por favor, complete todos los campos.'
-      );
-      // Si el formulario no es válido, puedes mostrar mensajes de error o realizar otras acciones
+      Swal.fire({
+        title: "formulario invalido, por favor rellene bien los campos",
+        icon: "warning"
+      });
     }
   }
 
