@@ -162,7 +162,7 @@
   <ng-content></ng-content>
   @if (isModalOpen) {
   <app-modal [isOpen]="isModalOpen" (closeModalEvent)="onModalClose()">
-    <app-login (loginSuccess)="onLoginSuccess()" (registro)="onModalClose()"></app-login>
+    <app-login (loginSuccess)="onLoginSuccess()" (loginFail)="onLoginFail()" (registro)="onModalClose()"></app-login>
     <button
       (click)="onModalClose()"
       class="absolute text-4xl top-6 right-6 hover:text-orange-500"

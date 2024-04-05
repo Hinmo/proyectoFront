@@ -11,8 +11,10 @@ import Swal from 'sweetalert2';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit{
+
+export class LoginComponent implements OnInit {
   @Output() loginSuccess = new EventEmitter<void>();
+  @Output() loginFail = new EventEmitter<void>(); // Nuevo evento para manejar el inicio de sesión fallido
   @Output() registro = new EventEmitter<void>();
   
   loginForm!: FormGroup;
@@ -20,7 +22,7 @@ export class LoginComponent implements OnInit{
   constructor(private fb: FormBuilder, 
     private autenticacionService: AutenticacionService,
     private router: Router
-    ){ }
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -36,36 +38,49 @@ export class LoginComponent implements OnInit{
     return this.loginForm.get(`password`);
   }
 
-  realizoLogin(){
-    if(this.loginForm.invalid){
+  realizoLogin() {
+    if (this.loginForm.invalid) {
       return;
     }
-
+  
     const data = this.loginForm.value;
-
+  
     this.autenticacionService.login(data).subscribe({
-      next: (resp: any) => {
+      next: (resp: any) => {  
         if (resp && resp.usuario) {
+          const usuarioRespuesta = resp.usuario;  
+          if (usuarioRespuesta.estado === false) {
+            // Usuario inactivo, mostrar advertencia
+            Swal.fire({
+              icon: 'warning',
+              title: 'Usuario inactivo',
+              text: 'Tu cuenta está inactiva. Contacta al administrador.',
+            });
+            this.loginForm.reset();
+            this.loginFail.emit();
+            return;
+          }  
+          // Usuario activo, continuar normalmente
           this.router.navigateByUrl('');
           this.loginSuccess.emit();
           this.loginForm.reset();
           Swal.fire({
-            icon: "success",
-            title: resp.usuario.login,
-            text: "Bienvenido",
+            icon: 'success',
+            title: usuarioRespuesta.login,
+            text: 'Bienvenido',
           });
         }
       },
       error: (error: any) => {
         console.error(error.error.msg);
         Swal.fire({
-          icon: "error",
-          title: "Algo salió mal",
+          icon: 'error',
+          title: 'Algo salió mal',
           text: error.error.msg,
         });
       },
     });
-  }
+  }  
 
   registrarse(){
     this.registro.emit();

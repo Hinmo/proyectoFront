@@ -90,6 +90,11 @@ export class HeaderComponent implements OnInit {
     this.isModalOpen = false;
   }
 
+  onLoginFail() {
+    this.isModalOpen = false;
+    this.auth.logout();
+  }
+
   cerrarSesion(){
     this.auth.logout();
     this.toggleButtonPerson();
