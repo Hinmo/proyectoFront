@@ -12,7 +12,7 @@
             </div>
             <div class="mb-4">
                 <label for="celular" class="block font-semibold mb-1">Teléfono:</label>
-                <input type="text" id="celular"  formControlName="celular" required class="w-full px-3 py-2 border border-gray-300 rounded-md" [class.proyecto-invalid-field]="registroForm.get('celular')?.invalid && (registroForm.get('celular')?.dirty || registroForm.get('celular')?.touched)">
+                <input type="number" id="celular"  formControlName="celular" required class="w-full px-3 py-2 border border-gray-300 rounded-md" [class.proyecto-invalid-field]="registroForm.get('celular')?.invalid && (registroForm.get('celular')?.dirty || registroForm.get('celular')?.touched)">
             </div>
             <div class="mb-4">
                 <label for="direccion" class="block font-semibold mb-1">Dirección:</label>
